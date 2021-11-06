@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +51,13 @@ public class AuthController {
     }
 
     @GetMapping("/hello")
-    @PreAuthorize("hasAnyAuthority('MESSAGE')")
+    @PreAuthorize("hasAnyAuthority('USER_REVIEW')")
     public ResponseEntity hello(){
-        return ResponseEntity.ok("hello");
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = null;
+        if (principal instanceof UserDetails) {
+            userPrincipal = (UserPrincipal) principal;
+        }
+        return ResponseEntity.ok(userPrincipal == null ?"hello": userPrincipal);
     }
 }
