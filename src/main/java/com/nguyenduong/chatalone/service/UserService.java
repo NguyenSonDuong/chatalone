@@ -4,6 +4,7 @@ import com.nguyenduong.chatalone.model.User;
 import com.nguyenduong.chatalone.model.UserPrincipal;
 
 public interface UserService {
-    User createUser(User user);
+    User createUser(String role,User user);
     UserPrincipal findByUsername(User user);
+    boolean CheckExitsAccount(String username, String email);
 }

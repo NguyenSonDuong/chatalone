@@ -19,6 +19,11 @@ public class User  extends BaseEntity {
     @Column(name = "password", nullable = false, length = 45)
     private String password;
 
+    @Column(name = "email", nullable = false, length = 100)
+    private String email;
+
+
+
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();

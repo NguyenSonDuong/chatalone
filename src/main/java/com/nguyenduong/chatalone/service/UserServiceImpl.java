@@ -1,7 +1,9 @@
 package com.nguyenduong.chatalone.service;
 
+import com.nguyenduong.chatalone.UserRoleRepository;
 import com.nguyenduong.chatalone.model.User;
 import com.nguyenduong.chatalone.model.UserPrincipal;
+import com.nguyenduong.chatalone.model.UserRole;
 import com.nguyenduong.chatalone.responstory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,15 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserRoleRepository roleRepository;
+
     @Override
-    public User createUser(User user) {
+    public User createUser(String role,User user) {
+        User userUpdate = userRepository.saveAndFlush(user);
+        roleRepository.saveAndFlush(new UserRole(user.getId(),3));
         System.out.println(userRepository);
-        return userRepository.saveAndFlush(user);
+        return userUpdate;
     }
 
     @Override
@@ -33,11 +40,16 @@ public class UserServiceImpl implements UserService{
             });
 
             userPrincipal.setUserId(user.getId());
-            System.out.println(authorities);
             userPrincipal.setUsername(user.getUsername());
             userPrincipal.setPassword(user.getPassword());
             userPrincipal.setAuthorities(authorities);
         }
         return userPrincipal;
+    }
+
+    @Override
+    public boolean CheckExitsAccount(String username, String email) {
+        userRepository.findAll();
+        return false;
     }
 }

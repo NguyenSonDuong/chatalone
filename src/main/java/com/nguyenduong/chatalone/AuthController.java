@@ -49,7 +49,7 @@ public class AuthController {
     }
 
     @GetMapping("/hello")
-    @PreAuthorize("hasAnyAuthority('USER_REVIEW')")
+    @PreAuthorize("hasAnyAuthority('MESSAGE')")
     public ResponseEntity hello(){
         return ResponseEntity.ok("hello");
     }
