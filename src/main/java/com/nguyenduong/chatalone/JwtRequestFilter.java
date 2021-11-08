@@ -50,6 +50,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         UserPrincipal user = null;
         Token token = null;
+
         if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith("Token ")) {
             String jwt = authorizationHeader.substring(6);
             user = jwtUtil.getUserFromToken(jwt);

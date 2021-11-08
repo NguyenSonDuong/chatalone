@@ -1,6 +1,8 @@
 package com.nguyenduong.chatalone.service;
 
-import com.nguyenduong.chatalone.UserRoleRepository;
+import com.nguyenduong.chatalone.model.UserInfo;
+import com.nguyenduong.chatalone.responstory.UserInfoRepository;
+import com.nguyenduong.chatalone.responstory.UserRoleRepository;
 import com.nguyenduong.chatalone.model.User;
 import com.nguyenduong.chatalone.model.UserPrincipal;
 import com.nguyenduong.chatalone.model.UserRole;
@@ -8,6 +10,7 @@ import com.nguyenduong.chatalone.responstory.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,12 +23,16 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRoleRepository roleRepository;
 
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
     @Override
     public User createUser(String role,User user) {
         User userUpdate = userRepository.saveAndFlush(user);
         roleRepository.saveAndFlush(new UserRole(user.getId(),3));
+        userInfoRepository.saveAndFlush(new UserInfo(user.getId(),"",0,new Date(),""));
         System.out.println(userRepository);
-        return userUpdate;
+        return userRepository.findById(user.getId()).get();
     }
 
     @Override
