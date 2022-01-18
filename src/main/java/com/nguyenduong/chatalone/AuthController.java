@@ -7,6 +7,7 @@ import com.nguyenduong.chatalone.responstory.TokenRepository;
 import com.nguyenduong.chatalone.responstory.UserRepository;
 import com.nguyenduong.chatalone.service.JwtUtil;
 import com.nguyenduong.chatalone.service.UserServiceImpl;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,9 +35,8 @@ public class AuthController {
             produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_FORM_URLENCODED_VALUE},
             consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> login(@RequestBody User user){
-        System.out.println(user.getUsername());
-        System.out.println(userRepository.findByUsername(user.getUsername()).getPassword());
-        UserPrincipal userPrincipal = userService.findByUsername(userRepository.findByUsername(user.getUsername()));
+        User user1 = userRepository.findByUsername(user.getUsername());
+        UserPrincipal userPrincipal = userService.findByUsername(user1);
         System.out.println(userPrincipal.getUsername());
         if (null == user || !new BCryptPasswordEncoder().matches(user.getPassword(), userPrincipal.getPassword())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("tài khoản hoặc mật khẩu không chính xác");
@@ -47,11 +47,16 @@ public class AuthController {
         token.setCreatedBy(userPrincipal.getUserId());
         System.out.println(token.getToken());
         tokenService.saveAndFlush(token);
-        return ResponseEntity.ok(token.getToken());
+        JSONObject jo = new JSONObject();
+        jo.put("id", userPrincipal.getUserId());
+        jo.put("data", user1);
+        jo.put("token", "Token "+token.getToken());
+        jo.put("create_at", token.getCreatedAt());
+        return ResponseEntity.ok(jo);
     }
 
     @GetMapping("/hello")
-    @PreAuthorize("hasAnyAuthority('USER_REVIEW')")
+    @PreAuthorize("hasAnyAuthority('USER_READ')")
     public ResponseEntity hello(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = null;

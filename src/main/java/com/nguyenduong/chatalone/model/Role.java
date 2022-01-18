@@ -14,11 +14,19 @@ import java.util.Set;
 public class Role extends BaseEntity {
 
 
-    @Column(name = "key", nullable = false, length = 45)
+    @Column(name = "`key`", nullable = false, length = 45)
     private String key;
 
     @Column(name = "name", nullable = false, length = 45)
     private String name;
+
+    public Role(String key, String name) {
+        this.key = key;
+        this.name = name;
+    }
+
+    public Role() {
+    }
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "role_permission", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {@JoinColumn(name = "permission_id")})

@@ -22,7 +22,18 @@ public class User  extends BaseEntity {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 
+    public User() {
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userinfo", referencedColumnName = "id")
+    private  UserInfo userInfo = new UserInfo();
 
     @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
