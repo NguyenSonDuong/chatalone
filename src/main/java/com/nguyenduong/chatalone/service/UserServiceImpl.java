@@ -1,10 +1,10 @@
 package com.nguyenduong.chatalone.service;
 
-import com.nguyenduong.chatalone.UserRoleRepository;
 import com.nguyenduong.chatalone.model.*;
 import com.nguyenduong.chatalone.responstory.RoleRepository;
 import com.nguyenduong.chatalone.responstory.UserInfoRepository;
 import com.nguyenduong.chatalone.responstory.UserRepository;
+import com.nguyenduong.chatalone.responstory.UserRoleRepository;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
