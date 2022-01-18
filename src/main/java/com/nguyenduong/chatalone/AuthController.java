@@ -56,7 +56,7 @@ public class AuthController {
     }
 
     @GetMapping("/hello")
-    @PreAuthorize("hasAnyAuthority('USER_READ')")
+    @PreAuthorize("hasAnyAuthority('READ_USER')")
     public ResponseEntity hello(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = null;

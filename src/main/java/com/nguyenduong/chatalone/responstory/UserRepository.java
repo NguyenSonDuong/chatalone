@@ -13,4 +13,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("select u from User u where u.username = ?1 ")
     ArrayList<User> GetUsername(String username);
 
+    @Query("select u from User u  join UserInfo ui on ui.DateOfBirth = ?1")
+    ArrayList<User> GetBirthday(int birthday);
+
+
+
+
 }

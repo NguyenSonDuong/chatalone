@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         jwtRequestFilter.setVerificationTokenService(tokenRepository);
-        http.csrf().disable().authorizeRequests().antMatchers("/register","/login").permitAll();
+        http.csrf().disable().authorizeRequests().antMatchers("/api/user/register","/api/user/login","/api/customer/login","/api/customer/register").permitAll();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
         Role rol = new Role(role, (role.equals("USER") ? "Người dùng" : (role.equals("ADMIN") ? "Quản trị viên" : "Khách")));
         rol.getPermissions().addAll(GetPremission(role));
         int id = roleMainRepository.saveAndFlush(rol).getId();
-        User user1 = new User(user.get("username").toString(),user.get("password").toString(),user.get("email").toString());
+        User user1 = new User(user.get("username").toString(),user.get("password").toString(),role.equals("CUSTOMER") ? "" : user.get("email").toString() );
         if(user.containsKey("birthday") && user.containsKey("sex"))
             user1.setUserInfo(new UserInfo(user.getAsNumber("birthday").intValue(),user.getAsNumber("sex").intValue()));
         else
@@ -46,6 +46,8 @@ public class UserServiceImpl implements UserService{
         User userUpdate = userRepository.saveAndFlush(user1);
         roleRepository.saveAndFlush(new UserRole(user1.getId(),id));
         System.out.println(userRepository);
+        if(role.equals("CUSTOMER"))
+            userUpdate.setPassword(user.getAsString("password"));
         return userUpdate;
     }
     public Set<Permission> GetPremission(String role){
