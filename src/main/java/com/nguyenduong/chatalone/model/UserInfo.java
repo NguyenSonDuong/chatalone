@@ -16,7 +16,6 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserInfo extends BaseEntity{
 
     @Column(name = "date_of_birth", nullable = false)
@@ -29,6 +28,6 @@ public class UserInfo extends BaseEntity{
         this.sex = sex;
     }
 
-    @OneToOne(mappedBy = "userInfo")
-    private User user;
+//    @OneToOne(mappedBy = "userInfo")
+//    private User user;
 }

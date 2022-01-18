@@ -32,9 +32,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public User createUser(String role, JSONObject user) {
         ArrayList<User> check = userRepository.GetUsername(user.getAsString("username"));
-        if(check.size() > 0 || check.get(0)!=null)
+        System.out.println(check.size());
+        if(check.size() > 0)
             return null;
         Role rol = new Role(role, (role.equals("USER") ? "Người dùng" : (role.equals("ADMIN") ? "Quản trị viên" : "Khách")));
+        rol.getPermissions().addAll(GetPremission(role));
         int id = roleMainRepository.saveAndFlush(rol).getId();
         User user1 = new User(user.get("username").toString(),user.get("password").toString(),user.get("email").toString());
         if(user.containsKey("birthday") && user.containsKey("sex"))
@@ -46,7 +48,28 @@ public class UserServiceImpl implements UserService{
         System.out.println(userRepository);
         return userUpdate;
     }
-
+    public Set<Permission> GetPremission(String role){
+        Set<Permission> permissions = new HashSet<Permission>();
+        if(role.equals("USER")){
+            permissions.add(new Permission("CREATE_USER","Tạo tài khoản"));
+            permissions.add(new Permission("READ_USER","Đọc thông tin tài khoản"));
+            permissions.add(new Permission("UPDATE_USER","Sửa thông tài khoản"));
+            permissions.add(new Permission("MESSAGE","Gửi tin nhắn"));
+        }
+        if(role.equals("ADMIN")){
+            permissions.add(new Permission("CREATE_USER","Tạo tài khoản"));
+            permissions.add(new Permission("READ_USER","Đọc thông tin tài khoản"));
+            permissions.add(new Permission("UPDATE_USER","Sửa thông tài khoản"));
+            permissions.add(new Permission("DELETE_USER","Xóa tài khoản"));
+            permissions.add(new Permission("MESSAGE","Gửi tin nhắn"));
+            permissions.add(new Permission("CHANGE_ROLE_USER","Thay đổi quyền người dùng"));
+        }
+        if(role.equals("CUSTOMER")){
+            permissions.add(new Permission("READ_USER","Đọc thông tin tài khoản"));
+            permissions.add(new Permission("MESSAGE","Gửi tin nhắn"));
+        }
+        return  permissions;
+    }
     @Override
     public UserPrincipal findByUsername( User user) {
         System.out.println(user.getRoles().toArray().length);

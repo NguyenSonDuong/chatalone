@@ -24,12 +24,12 @@ public class BaseEntity implements Serializable {
     private boolean deleted = false;
 
     @CreatedDate
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     @LastModifiedDate
-    private Date updatedAt;
+    private Date updatedAt = new Date();
 
-    private Integer createdBy;
+    private Integer createdBy = -1;
 
-    private Integer updatedBy;
+    private Integer updatedBy = -1;
 }
