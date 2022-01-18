@@ -42,4 +42,13 @@ public class User  extends BaseEntity {
     @OneToOne
     @JoinTable(name = "user_info",joinColumns = {@JoinColumn(name = "id")})
     private UserInfo infos;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

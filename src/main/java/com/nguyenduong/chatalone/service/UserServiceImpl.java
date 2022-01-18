@@ -9,6 +9,7 @@ import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,10 +31,16 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(String role, JSONObject user) {
+        ArrayList<User> check = userRepository.GetUsername(user.getAsString("username"));
+        if(check.size() > 0 || check.get(0)!=null)
+            return null;
         Role rol = new Role(role, (role.equals("USER") ? "Người dùng" : (role.equals("ADMIN") ? "Quản trị viên" : "Khách")));
         int id = roleMainRepository.saveAndFlush(rol).getId();
         User user1 = new User(user.get("username").toString(),user.get("password").toString(),user.get("email").toString());
-        user1.setUserInfo(new UserInfo(user.getAsNumber("birthday").intValue(),user.getAsNumber("sex").intValue()));
+        if(user.containsKey("birthday") && user.containsKey("sex"))
+            user1.setUserInfo(new UserInfo(user.getAsNumber("birthday").intValue(),user.getAsNumber("sex").intValue()));
+        else
+            user1.setUserInfo(new UserInfo(2022,0));
         User userUpdate = userRepository.saveAndFlush(user1);
         roleRepository.saveAndFlush(new UserRole(user1.getId(),id));
         System.out.println(userRepository);
