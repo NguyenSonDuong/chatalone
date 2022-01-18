@@ -49,11 +49,4 @@ public class CustomerController {
             return ResponseEntity.ok(check);
     }
 
-    @PreAuthorize("hasAnyAuthority('MESSAGE')")
-    @RequestMapping(name = "/user",method = RequestMethod.GET,
-            produces = {MediaType.APPLICATION_JSON_VALUE},consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<?> GetListUser(){
-        List<User> listUser = userRepository2.GetBirthday(1999);
-        return  ResponseEntity.ok().build();
-    }
 }

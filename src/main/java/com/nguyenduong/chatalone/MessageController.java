@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-
+@RequestMapping("/api/message")
 @RestController()
 public class MessageController {
 
     @Autowired
     private UserRepository userRepository;
-//
-//    @PreAuthorize("hasAnyAuthority('MESSAGE')")
-//    @RequestMapping(name = "/user",method = RequestMethod.GET,
-//            produces = {MediaType.APPLICATION_JSON_VALUE},consumes = MediaType.ALL_VALUE)
-//    public ResponseEntity<?> GetListUser(){
-//        List<User> listUser = userRepository.GetBirthday(1999);
-//        return  ResponseEntity.ok().build();
-//    }
+
+    @PreAuthorize("hasAnyAuthority('MESSAGE')")
+    @RequestMapping(value = "/user",method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE},consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> GetListUser(@RequestParam("birthday") int birthday){
+        List<User> listUser = userRepository.GetBirthday(birthday);
+        return  ResponseEntity.ok(listUser);
+    }
 }
