@@ -2,6 +2,8 @@ package com.nguyenduong.chatalone;
 
 import com.nguyenduong.chatalone.model.User;
 import com.nguyenduong.chatalone.responstory.UserRepository;
+import com.nimbusds.jose.shaded.json.JSONArray;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,21 @@ public class MessageController {
     @PreAuthorize("hasAnyAuthority('MESSAGE')")
     @RequestMapping(value = "/user",method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE},consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<?> GetListUser(@RequestParam("birthday") int birthday){
-        List<User> listUser = userRepository.GetBirthday(birthday);
+    public ResponseEntity<?> GetListUser(@RequestParam("birthdaymin") int birthdayMin,@RequestParam("birthdaymax") int birthdayMax,@RequestParam("sex") int sex){
+        List<User> listUser = userRepository.GetBirthday(birthdayMin,birthdayMax);
+
+
+        JSONArray jsonArray = new JSONArray();
+
+        for (User user : listUser) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("username",user.getUsername());
+            jsonObject.put("email",user.getEmail());
+            jsonObject.put("birthday",user.getUserInfo().getDateOfBirth());
+            jsonObject.put("sex",user.getUsername());
+//            jsonArray.appendElement();
+        }
         return  ResponseEntity.ok(listUser);
     }
 }
+

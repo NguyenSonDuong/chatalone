@@ -6,10 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "user_info")
 @Entity
@@ -22,6 +21,16 @@ public class UserInfo extends BaseEntity{
     private  int DateOfBirth;
     @Column(name = "sex", nullable = false)
     private  int sex;
+
+    @Column(name = "rank", nullable = false)
+    private double rank;
+
+    @Column(name = "quatity_user", nullable = false)
+    private double QuatityUser;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "blocker", referencedColumnName = "idUser")
+    private  Set<Blocker> listBlocker = new HashSet<>();
 
     public UserInfo(int dateOfBirth, int sex) {
         DateOfBirth = dateOfBirth;

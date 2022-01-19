@@ -1,8 +1,7 @@
 package com.nguyenduong.chatalone;
 
 import com.google.gson.Gson;
-import com.nguyenduong.chatalone.model.Role;
-import com.nguyenduong.chatalone.model.User;
+import com.nguyenduong.chatalone.model.*;
 import com.nguyenduong.chatalone.responstory.UserRepository;
 import com.nguyenduong.chatalone.service.UserService;
 import com.nguyenduong.chatalone.service.UserServiceImpl;
@@ -11,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userRepository;
+
+    @Autowired
+    private  UserRepository userRepositoryNoService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST,
             produces = {MediaType.APPLICATION_JSON_VALUE},
@@ -45,8 +50,28 @@ public class UserController {
             return ResponseEntity.ok(check);
     }
 
-    @RequestMapping(value = "/xinchao", method = RequestMethod.GET)
-    public  String GetAda(){
-        return  "Xin choa";
+
+    @PreAuthorize("hasAnyAuthority('READ_USER')")
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public  ResponseEntity GetInfoUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = null;
+        if (principal instanceof UserDetails) {
+            userPrincipal = (UserPrincipal) principal;
+        }
+        userRepositoryNoService.findByUsername(userPrincipal.getUsername());
+        return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userRepositoryNoService.findByUsername(userPrincipal.getUsername())));
+    }
+
+    @PreAuthorize("hasAnyAuthority('UPDATE_USER')")
+    @RequestMapping(value = "/block", method = RequestMethod.POST)
+    public  ResponseEntity GetAda(@RequestParam("id") int id){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = null;
+        if (principal instanceof UserDetails) {
+            userPrincipal = (UserPrincipal) principal;
+        }
+        userRepositoryNoService.findByUsername(userPrincipal.getUsername()).getUserInfo().getListBlocker().add(new Blocker(id));
+        return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userPrincipal));
     }
 }
