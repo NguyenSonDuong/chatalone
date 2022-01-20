@@ -28,8 +28,8 @@ public class UserInfo extends BaseEntity{
     @Column(name = "quatity_user", nullable = false)
     private double QuatityUser;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "blocker", referencedColumnName = "idUser")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_blocker", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "user_block")})
     private  Set<Blocker> listBlocker = new HashSet<>();
 
     public UserInfo(int dateOfBirth, int sex) {
