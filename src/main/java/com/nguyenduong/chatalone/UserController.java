@@ -30,6 +30,7 @@ public class UserController {
     @Autowired
     private  UserRepository userRepositoryNoService;
 
+
     @RequestMapping(value = "/register", method = RequestMethod.POST,
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = MediaType.ALL_VALUE)
