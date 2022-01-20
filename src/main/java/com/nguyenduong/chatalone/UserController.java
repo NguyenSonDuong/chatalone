@@ -60,18 +60,18 @@ public class UserController {
             userPrincipal = (UserPrincipal) principal;
         }
         userRepositoryNoService.findByUsername(userPrincipal.getUsername());
-        return ResponseEntity.ok(HelpController.GetSuccess("Lấy thông tin thành công",userRepositoryNoService.findByUsername(userPrincipal.getUsername())));
+        return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userRepositoryNoService.findByUsername(userPrincipal.getUsername())));
     }
 
     @PreAuthorize("hasAnyAuthority('UPDATE_USER')")
     @RequestMapping(value = "/block", method = RequestMethod.POST)
-    public  ResponseEntity GetAda(@RequestParam("id") int id){
+    public  ResponseEntity GetAda(@RequestParam("id") int id,@RequestParam("name") String name){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserPrincipal userPrincipal = null;
         if (principal instanceof UserDetails) {
             userPrincipal = (UserPrincipal) principal;
         }
-        userRepositoryNoService.findByUsername(userPrincipal.getUsername()).getUserInfo().getUserBlockers().add(new UserBlocker(id,new Date()));
+        userRepositoryNoService.findByUsername(userPrincipal.getUsername()).getUserInfo().getListBlocker().add(new Blocker(id,name,new Date()));
         return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userPrincipal));
     }
 }
