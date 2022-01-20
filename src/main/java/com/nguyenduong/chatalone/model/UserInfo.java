@@ -1,14 +1,13 @@
 package com.nguyenduong.chatalone.model;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "user_info")
 @Entity
@@ -28,9 +27,8 @@ public class UserInfo extends BaseEntity{
     @Column(name = "quatity_user", nullable = false)
     private double QuatityUser;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "blocker", referencedColumnName = "idUser")
-    private  Set<Blocker> listBlocker = new HashSet<>();
+    @OneToMany(mappedBy = "userInfo")
+    private List<UserBlocker> userBlockers = new ArrayList<>();
 
     public UserInfo(int dateOfBirth, int sex) {
         DateOfBirth = dateOfBirth;

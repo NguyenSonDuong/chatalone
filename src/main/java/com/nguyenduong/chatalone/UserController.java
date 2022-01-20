@@ -60,7 +60,7 @@ public class UserController {
             userPrincipal = (UserPrincipal) principal;
         }
         userRepositoryNoService.findByUsername(userPrincipal.getUsername());
-        return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userRepositoryNoService.findByUsername(userPrincipal.getUsername())));
+        return ResponseEntity.ok(HelpController.GetSuccess("Lấy thông tin thành công",userRepositoryNoService.findByUsername(userPrincipal.getUsername())));
     }
 
     @PreAuthorize("hasAnyAuthority('UPDATE_USER')")
@@ -71,7 +71,7 @@ public class UserController {
         if (principal instanceof UserDetails) {
             userPrincipal = (UserPrincipal) principal;
         }
-        userRepositoryNoService.findByUsername(userPrincipal.getUsername()).getUserInfo().getListBlocker().add(new Blocker(id));
+        userRepositoryNoService.findByUsername(userPrincipal.getUsername()).getUserInfo().getUserBlockers().add(new UserBlocker(id,new Date()));
         return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userPrincipal));
     }
 }

@@ -28,11 +28,8 @@ public class MessageController {
     @RequestMapping(value = "/user",method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE},consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> GetListUser(@RequestParam("birthdaymin") int birthdayMin,@RequestParam("birthdaymax") int birthdayMax,@RequestParam("sex") int sex){
-        List<User> listUser = userRepository.GetBirthday(birthdayMin,birthdayMax);
-
-
+        List<User> listUser = userRepository.GetUserBirthdayAndSex(birthdayMin,birthdayMax,sex);
         JSONArray jsonArray = new JSONArray();
-
         for (User user : listUser) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("username",user.getUsername());
