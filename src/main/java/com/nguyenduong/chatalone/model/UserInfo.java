@@ -22,14 +22,18 @@ public class UserInfo extends BaseEntity{
     @Column(name = "sex", nullable = false)
     private  int sex;
 
-    @Column(name = "rank", nullable = false)
-    private double rank;
+    @Column(name = "quantity_message_user", nullable = false)
+    private double quantityMessageUser;
 
-    @Column(name = "quatity_user", nullable = false)
-    private double QuatityUser;
+    @Column(name = "quatity_user_request", nullable = false)
+    private double quatityUserRequest;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "evaluate_user", joinColumns = {@JoinColumn(name = "id_user")},inverseJoinColumns = {@JoinColumn(name = "id_evaluate")})
+    private  Set<Evaluate> evaluates = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_blocker", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "user_block")})
+    @JoinTable(name = "user_blocker", joinColumns = {@JoinColumn(name = "id_user")}, inverseJoinColumns = {@JoinColumn(name = "user_block")})
     private  Set<Blocker> listBlocker = new HashSet<>();
 
     public UserInfo(int dateOfBirth, int sex) {

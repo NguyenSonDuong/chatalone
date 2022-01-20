@@ -1,24 +1,21 @@
 package com.nguyenduong.chatalone.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Table(name = "user_blocker")
+@Table(name = "evaluate_user")
 @Entity
 @Getter
 @Setter
-public class UserBlocker {
+public class EvaluateUser {
 
     @Id
     @Column(name = "id_user", nullable = false)
-    private Integer userId;
-
+    private Integer idUser;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_block", referencedColumnName = "id")
-    private Blocker user_block_id = new Blocker();
-
+    @JoinColumn(name = "id_evaluate",referencedColumnName = "id")
+    private Evaluate evaluate = new Evaluate();
 }

@@ -59,8 +59,7 @@ public class UserController {
         if (principal instanceof UserDetails) {
             userPrincipal = (UserPrincipal) principal;
         }
-        userRepositoryNoService.findByUsername(userPrincipal.getUsername());
-        return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userRepositoryNoService.findByUsername(userPrincipal.getUsername())));
+        return ResponseEntity.ok(HelpController.GetSuccess("success",userRepositoryNoService.findByUsername(userPrincipal.getUsername())));
     }
 
     @PreAuthorize("hasAnyAuthority('UPDATE_USER')")
@@ -72,6 +71,28 @@ public class UserController {
             userPrincipal = (UserPrincipal) principal;
         }
         userRepositoryNoService.findByUsername(userPrincipal.getUsername()).getUserInfo().getListBlocker().add(new Blocker(id,name,new Date()));
+        userRepositoryNoService.flush();
         return ResponseEntity.ok(HelpController.GetSuccess("Block thành công",userPrincipal));
     }
+
+    @PreAuthorize("hasAnyAuthority('UPDATE_USER')")
+    @RequestMapping(value = "/evaluate", method = RequestMethod.POST)
+    public  ResponseEntity SetRank(@RequestParam("id") int id,@RequestParam("point") int point){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrincipal userPrincipal = null;
+        if (principal instanceof UserDetails) {
+            userPrincipal = (UserPrincipal) principal;
+        }
+        try{
+            userRepositoryNoService.findById(id).get().getUserInfo().getEvaluates().add(new Evaluate(userPrincipal.getUserId(),point));
+            userRepositoryNoService.flush();
+            return ResponseEntity.ok(HelpController.GetSuccess("Đánh giá người dùng thành công",null));
+        }catch (Exception ex){
+            return  ResponseEntity.badRequest().body(HelpController.GetError("Error: "+ ex.getMessage(),400));
+        }
+
+    }
+
+
+
 }

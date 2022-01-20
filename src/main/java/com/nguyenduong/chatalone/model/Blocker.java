@@ -19,10 +19,6 @@ public class Blocker extends BaseEntity{
     @Column(name = "name", nullable = false)
     private  String name ;
 
-    @Column(name = "create_at", nullable = false)
-    private Date create_at;
-
-
     public Blocker(int idUserBlock) {
         this.idUserBlock = idUserBlock;
     }
@@ -30,7 +26,7 @@ public class Blocker extends BaseEntity{
     public Blocker(int idUserBlock, String name, Date create_at) {
         this.idUserBlock = idUserBlock;
         this.name = name;
-        this.create_at = create_at;
+        this.setCreatedAt(create_at);
     }
 
     public Blocker() {

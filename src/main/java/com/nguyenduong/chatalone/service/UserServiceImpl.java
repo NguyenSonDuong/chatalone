@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     public UserPrincipal findByUsername( User user) {
-        System.out.println(user.getRoles().toArray().length);
         UserPrincipal userPrincipal = new UserPrincipal();
         if (null != user) {
             Set<String> authorities = new HashSet<>();
