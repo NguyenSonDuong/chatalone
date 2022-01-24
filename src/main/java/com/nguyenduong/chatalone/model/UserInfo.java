@@ -23,10 +23,10 @@ public class UserInfo extends BaseEntity{
     private  int sex;
 
     @Column(name = "quantity_message_user", nullable = false)
-    private double quantityMessageUser;
+    private double quantityMessageUser = 0;
 
     @Column(name = "quatity_user_request", nullable = false)
-    private double quatityUserRequest;
+    private double quatityUserRequest = 0;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "evaluate_user", joinColumns = {@JoinColumn(name = "id_user")},inverseJoinColumns = {@JoinColumn(name = "id_evaluate")})
