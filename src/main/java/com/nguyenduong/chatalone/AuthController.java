@@ -2,6 +2,7 @@ package com.nguyenduong.chatalone;
 
 import com.nguyenduong.chatalone.model.Token;
 import com.nguyenduong.chatalone.model.User;
+import com.nguyenduong.chatalone.model.UserInfo;
 import com.nguyenduong.chatalone.model.UserPrincipal;
 import com.nguyenduong.chatalone.responstory.TokenRepository;
 import com.nguyenduong.chatalone.responstory.UserRepository;
@@ -52,6 +53,8 @@ public class AuthController {
         jo.put("data", user1);
         jo.put("token", "Token "+token.getToken());
         jo.put("create_at", token.getCreatedAt());
+        userRepository.findByUsername(userPrincipal.getUsername()).getUserInfo().setStatus(UserInfo.StatusUser.ONLINE);
+        userRepository.flush();
         return ResponseEntity.ok(jo);
     }
 

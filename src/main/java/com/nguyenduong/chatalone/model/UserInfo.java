@@ -21,12 +21,18 @@ public class UserInfo extends BaseEntity{
     private  int DateOfBirth;
     @Column(name = "sex", nullable = false)
     private  int sex;
-
     @Column(name = "quantity_message_user", nullable = false)
     private double quantityMessageUser = 0;
-
     @Column(name = "quatity_user_request", nullable = false)
     private double quatityUserRequest = 0;
+    @Column(name = "status", nullable = false)
+    private String status = StatusUser.OFFLINE;
+
+    @Column(name = "point", nullable = false)
+    private double point = 0.0;
+
+    @Column(name = "tokenfb",nullable = false)
+    private String tokenfb = "";
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "evaluate_user", joinColumns = {@JoinColumn(name = "id_user")},inverseJoinColumns = {@JoinColumn(name = "id_evaluate")})
@@ -41,6 +47,11 @@ public class UserInfo extends BaseEntity{
         this.sex = sex;
     }
 
+    public static class StatusUser{
+        public final static String ONLINE = "online";
+        public final static String OFFLINE = "offline";
+        public final static String BUSY = "busy";
+    }
 //    @OneToOne(mappedBy = "userInfo")
 //    private User user;
 }

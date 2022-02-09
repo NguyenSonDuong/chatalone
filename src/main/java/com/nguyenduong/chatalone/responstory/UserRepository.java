@@ -25,7 +25,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("select u from User u where u.userInfo.DateOfBirth = ?1 and u.userInfo.sex = ?2")
     ArrayList<User> GetUserBirthdayAndSex(int birthday, int sex);
 
-    @Query("select u from User u where u.userInfo.DateOfBirth > ?1 and u.userInfo.DateOfBirth < ?2 and u.userInfo.sex = ?3")
+    @Query("select u from User u where u.userInfo.DateOfBirth > ?1 and u.userInfo.DateOfBirth < ?2 and u.userInfo.sex = ?3 ")
     ArrayList<User> GetUserBirthdayAndSex(int birthdayMin, int birthdayMax, int sex);
+
+    @Query("update User u set u.userInfo.status = ?2 where u.id = ?1 ")
+    boolean UpdateStatus(int id, String staus);
 
 }
