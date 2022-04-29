@@ -21,7 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RestController
+@RequestMapping("/api/v1")
 public class AuthController {
     @Autowired
     private TokenRepository tokenService;
@@ -40,7 +40,12 @@ public class AuthController {
         UserPrincipal userPrincipal = userService.findByUsername(user1);
         System.out.println(userPrincipal.getUsername());
         if (null == user || !new BCryptPasswordEncoder().matches(user.getPassword(), userPrincipal.getPassword())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("tài khoản hoặc mật khẩu không chính xác");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("status","error");
+            jsonObject.put("title","Wrong username or password");
+            jsonObject.put("content",null);
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject);
         }
         Token token = new Token();
         token.setToken(jwtUtil.generateToken(userPrincipal));

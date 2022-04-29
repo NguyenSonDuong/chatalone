@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 
-@RequestMapping("/api/customer")
+@RequestMapping("/api/v1/customer")
 @RestController()
 public class CustomerController {
 
