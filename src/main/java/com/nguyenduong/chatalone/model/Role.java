@@ -13,6 +13,11 @@ import java.util.Set;
 @Setter
 public class Role extends BaseEntity {
 
+    public static class RoleKey{
+        public static final String USER  = "USER";
+        public static final String ADMIN  = "ADMIN";
+        public static final String CUSTOMER  = "CUSTOMER";
+    }
 
     @Column(name = "`key`", nullable = false, length = 45)
     private String key;

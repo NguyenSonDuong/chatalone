@@ -1,5 +1,8 @@
 package com.nguyenduong.chatalone.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +19,7 @@ public class User  extends BaseEntity {
     @Column(name = "username", nullable = false, length = 45)
     private String username;
 
+    @JsonIgnore(value = false)
     @Column(name = "password", nullable = false, length = 150)
     private String password;
 
