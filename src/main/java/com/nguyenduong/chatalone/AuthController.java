@@ -67,7 +67,7 @@ public class AuthController {
         return ResponseEntity.ok(Responsive.SuccessResponsive("Login success!",jo));
     }
 
-    @RequestMapping(value = "̉/register", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE},consumes = MediaType.ALL_VALUE)
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE},consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> Register(@RequestBody JSONObject user){
         try{
             String password = user.getAsString("password");
