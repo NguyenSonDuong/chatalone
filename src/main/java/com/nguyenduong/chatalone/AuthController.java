@@ -79,6 +79,7 @@ public class AuthController {
             else
                 return ResponseEntity.ok(Responsive.SuccessResponsive("Register success",check));
         }catch (Exception ex){
+            System.out.println(ex);
             return  ResponseEntity.badRequest().body(Responsive.ErrorResponsive("An unknown error",1001));
         }
     }

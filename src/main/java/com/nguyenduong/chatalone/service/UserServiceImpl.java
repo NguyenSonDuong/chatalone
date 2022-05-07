@@ -31,7 +31,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(String role, JSONObject user) {
+        System.out.println(userRepository);
         ArrayList<User> check = userRepository.GetUsername(user.getAsString("username"));
+        if(check == null)
+            return null;
         System.out.println(check.size());
         if(check.size() > 0)
             return null;
