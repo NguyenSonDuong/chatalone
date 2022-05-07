@@ -22,12 +22,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         jwtRequestFilter.setVerificationTokenService(tokenRepository);
+
+
         http.csrf().disable().authorizeRequests().antMatchers(
                 "/api/v1/register",
-                "/api/v1/login").permitAll();
+                "/api/v1/login").permitAll().and().formLogin().failureHandler(new CustomAuthenticationFailureHandler());
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
